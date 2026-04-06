@@ -226,9 +226,6 @@ export interface EventsResponse {
 // Backend URL - configured via environment variable
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
-// Demo mode flag - set to false to use real backend
-const DEMO_MODE = import.meta.env.VITE_DEMO_MODE !== "false";
-
 // Store org_id and user_id for API requests
 let _orgId: string | null = null;
 let _userId: string | null = null;
@@ -262,92 +259,8 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
     if (!res.ok) throw new Error(`API error ${res.status}: ${path}`);
     return res.json();
   } catch (error) {
-    // If backend unavailable and demo mode enabled, return mock data
-    if (DEMO_MODE) {
-      console.log(`[Demo Mode] Serving mock data for: ${path}`);
-      return getMockData(path) as T;
-    }
     throw error;
   }
-}
-
-// Mock data fallback
-function getMockData(path: string): unknown {
-  const mockResponses: Record<string, unknown> = {
-    "/events": {
-      total: 5,
-      events: [
-        { event_id: "1", user_id: "u1", user_email: "john@company.com", department: "Engineering", device_id: "d1", tool_name: "ChatGPT", domain: "chatgpt.com", category: "AI Assistant", vendor: "OpenAI", risk_level: "medium", source: "network", process_name: "chrome.exe", process_path: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", is_approved: true, is_blocked: false, timestamp: new Date().toISOString() },
-        { event_id: "2", user_id: "u2", user_email: "jane@company.com", department: "Marketing", device_id: "d2", tool_name: "Midjourney", domain: "midjourney.com", category: "AI Image", vendor: "Midjourney", risk_level: "high", source: "network", process_name: "chrome.exe", process_path: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", is_approved: false, is_blocked: false, timestamp: new Date().toISOString() },
-        { event_id: "3", user_id: "u3", user_email: "bob@company.com", department: "Sales", device_id: "d3", tool_name: "Claude", domain: "claude.ai", category: "AI Assistant", vendor: "Anthropic", risk_level: "low", source: "network", process_name: "msedge.exe", process_path: "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe", is_approved: true, is_blocked: false, timestamp: new Date().toISOString() },
-        { event_id: "4", user_id: "u4", user_email: "alice@company.com", department: "HR", device_id: "d4", tool_name: "GitHub Copilot", domain: "github.com", category: "Developer Tool", vendor: "GitHub", risk_level: "low", source: "network", process_name: "code.exe", process_path: "C:\\Users\\yashm\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe", is_approved: true, is_blocked: false, timestamp: new Date().toISOString() },
-        { event_id: "5", user_id: "u5", user_email: "mike@company.com", department: "Finance", device_id: "d5", tool_name: "Perplexity", domain: "perplexity.ai", category: "AI Assistant", vendor: "Perplexity", risk_level: "medium", source: "network", process_name: "chrome.exe", process_path: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", is_approved: true, is_blocked: false, timestamp: new Date().toISOString() },
-      ]
-    },
-    "/stats": { totalDetections: 156, uniqueTools: 12, highRiskCount: 23, unapprovedCount: 18, onlineDevices: 4, totalDevices: 5, activeAlerts: 3 },
-    "/alerts": [
-      { id: "a1", type: "high_risk", title: "High Risk Tool Detected", description: "Unapproved AI tool accessed", timestamp: new Date().toISOString(), severity: "high" },
-      { id: "a2", type: "unapproved", title: "Unapproved Tool Usage", description: "User accessed tool not in approved list", timestamp: new Date().toISOString(), severity: "medium" },
-      { id: "a3", type: "high_frequency", title: "High Frequency Access", description: "Excessive usage detected", timestamp: new Date().toISOString(), severity: "low" },
-    ],
-    "/analytics": {
-      byTool: [
-        { name: "ChatGPT", count: 45 },
-        { name: "Claude", count: 32 },
-        { name: "Midjourney", count: 28 },
-        { name: "GitHub Copilot", count: 21 },
-        { name: "Perplexity", count: 15 },
-      ],
-      byCategory: [
-        { name: "AI Assistant", value: 92 },
-        { name: "AI Image", value: 28 },
-        { name: "Developer Tool", value: 21 },
-        { name: "Search Engine", value: 15 },
-      ],
-      overTime: [
-        { time: "2024-01", count: 12 },
-        { time: "2024-02", count: 18 },
-        { time: "2024-03", count: 25 },
-      ],
-      topProcesses: [
-        { name: "chrome.exe", count: 89 },
-        { name: "msedge.exe", count: 45 },
-        { name: "code.exe", count: 22 },
-      ]
-    },
-    "/subscriptions": [
-      { id: "s1", tool_name: "ChatGPT Plus", vendor: "OpenAI", seats: 10, seats_used: 8, cost_monthly: 240, currency: "USD", status: "active", renewal_date: "2024-04-15", created_at: "2024-01-01" },
-      { id: "s2", tool_name: "GitHub Copilot", vendor: "GitHub", seats: 5, seats_used: 4, cost_monthly: 100, currency: "USD", status: "active", renewal_date: "2024-04-01", created_at: "2024-01-15" },
-      { id: "s3", tool_name: "Midjourney", vendor: "Midjourney", seats: 3, seats_used: 3, cost_monthly: 60, currency: "USD", status: "active", renewal_date: "2024-03-20", created_at: "2024-01-20" },
-    ],
-    "/spend": { totalMonthlySpend: 400, monthlyBudget: 500, budgetRemaining: 100, zombieLicenses: 2, zombieCost: 40 },
-    "/team": {
-      members: [
-        { id: "m1", full_name: "John Doe", email: "john@company.com", department: "Engineering", role: "admin", avatar_url: null, created_at: "2024-01-01" },
-        { id: "m2", full_name: "Jane Smith", email: "jane@company.com", department: "Marketing", role: "member", avatar_url: null, created_at: "2024-01-15" },
-        { id: "m3", full_name: "Bob Wilson", email: "bob@company.com", department: "Sales", role: "member", avatar_url: null, created_at: "2024-02-01" },
-        { id: "m4", full_name: "Alice Brown", email: "alice@company.com", department: "HR", role: "viewer", avatar_url: null, created_at: "2024-02-15" },
-      ],
-      invites: []
-    },
-    "/settings": { id: "settings1", org_id: "org_demo", monthly_budget: 500, alert_threshold: 70, auto_block: false, allowed_categories: ["AI Assistant", "Developer Tool"], blocked_domains: [], notification_email: true, notification_slack: false, slack_webhook_url: null },
-    "/me": { id: "user1", org_id: "org_demo", full_name: "Demo User", email: "demo@company.com", department: "Engineering", role: "admin", avatar_url: null, org_name: "Demo Organization", org_slug: "demo-org", dark_mode: true },
-    "/firewall/rules": [],
-    "/firewall/events": [],
-    "/firewall/stats": { blockedToday: 0, blockEventsThisWeek: 0, policyViolations: 0, complianceScore: 100 },
-    "/sensitivity/events": [],
-    "/sensitivity/risk-scores": [],
-    "/sensitivity/stats": { highRiskToday: 0, employeesWithRisk: 0, mostCommonType: "None", orgRiskScore: 0 },
-    "/heartbeats": [
-      { org_id: "org_demo", device_id: "device-1", hostname: "DESKTOP-ABC123", agent_version: "1.0.0", queue_depth: 0, last_detection_time: new Date().toISOString(), os_version: "Windows 11", restart_detected: false, timestamp: new Date().toISOString(), status: "online" }
-    ]
-  };
-
-  // Find matching mock response
-  for (const [key, value] of Object.entries(mockResponses)) {
-    if (path.startsWith(key)) return value;
-  }
-  return {};
 }
 
 // Stub — not needed for local backend
