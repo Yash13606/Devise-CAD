@@ -1,0 +1,10 @@
+psutil>=5.9.0
+dnspython>=2.4.0
+APScheduler>=3.10.0
+httpx>=0.25.0
+python-dotenv>=1.0.0
+PyInstaller>=6.0.0
+keyring>=24.0.0
+supabase>=2.3.0
+pywin32>=306; sys_platform == 'win32'
+pyperclip>=1.8.2
