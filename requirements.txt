@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+firebase-admin
+python-jose[cryptography]
+python-dotenv
+pydantic
+httpx>=0.25.0

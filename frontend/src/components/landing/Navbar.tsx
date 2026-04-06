@@ -29,9 +29,7 @@ export const Navbar = () => {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center group">
-            <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-              <Grid2x2 className="text-white w-5 h-5" />
-            </div>
+            <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain transition-transform group-hover:scale-105" />
             <span className="ml-2 text-xl font-bold text-brand-dark tracking-tight">Devise</span>
           </Link>
 
@@ -221,9 +219,7 @@ export const Navbar = () => {
                 <Dialog.Content className="fixed inset-0 z-[101] p-6 flex flex-col bg-transparent overflow-y-auto w-full h-full max-h-screen">
                   <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center">
-                      <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
-                        <Grid2x2 className="text-white w-5 h-5" />
-                      </div>
+                      <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain" />
                       <span className="ml-2 text-xl font-bold text-brand-dark">Devise</span>
                     </div>
                     <button 

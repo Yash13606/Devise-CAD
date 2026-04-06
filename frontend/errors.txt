@@ -1,0 +1,64 @@
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\AnalyticsTab.tsx
+  - Line 41: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\DataRiskTab.tsx
+  - Line 181: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 193: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\FirewallTab.tsx
+  - Line 138: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 152: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 164: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 176: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\LiveFeedTab.tsx
+  - Line 267: Expected an assignment or function call and instead saw an expression. (@typescript-eslint/no-unused-expressions)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\RecentDetectionsTable.tsx
+  - Line 60: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 126: Expected an assignment or function call and instead saw an expression. (@typescript-eslint/no-unused-expressions)
+  - Line 150: 'end' is never reassigned. Use 'const' instead. (prefer-const)
+  - Line 364: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\SettingsTab.tsx
+  - Line 112: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\TeamTab.tsx
+  - Line 391: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\dashboard\UsageTrendChart.tsx
+  - Line 15: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 29: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\layout\AccountSettingsPanel.tsx
+  - Line 44: React Hook useEffect has a missing dependency: 'handleClose'. Either include it or remove the dependency array. (react-hooks/exhaustive-deps)
+FILE: D:\Devise-CAD\frontend\src\components\layout\MyProfilePanel.tsx
+  - Line 42: React Hook useEffect has a missing dependency: 'handleClose'. Either include it or remove the dependency array. (react-hooks/exhaustive-deps)
+  - Line 70: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\layout\SearchModal.tsx
+  - Line 42: Empty block statement. (no-empty)
+  - Line 64: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 70: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+  - Line 109: React Hook useEffect has a missing dependency: 'handleSelect'. Either include it or remove the dependency array. (react-hooks/exhaustive-deps)
+FILE: D:\Devise-CAD\frontend\src\components\layout\TopBar.tsx
+  - Line 14: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\components\ui\badge.tsx
+  - Line 29: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\button.tsx
+  - Line 47: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\command.tsx
+  - Line 24: An interface declaring no members is equivalent to its supertype. (@typescript-eslint/no-empty-object-type)
+FILE: D:\Devise-CAD\frontend\src\components\ui\form.tsx
+  - Line 129: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\navigation-menu.tsx
+  - Line 111: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\sidebar.tsx
+  - Line 636: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\sonner.tsx
+  - Line 27: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\components\ui\textarea.tsx
+  - Line 5: An interface declaring no members is equivalent to its supertype. (@typescript-eslint/no-empty-object-type)
+FILE: D:\Devise-CAD\frontend\src\components\ui\toggle.tsx
+  - Line 37: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\lib\AuthContext.tsx
+  - Line 154: Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components. (react-refresh/only-export-components)
+FILE: D:\Devise-CAD\frontend\src\pages\LoginPage.tsx
+  - Line 33: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\pages\SignupPage.tsx
+  - Line 44: Unexpected any. Specify a different type. (@typescript-eslint/no-explicit-any)
+FILE: D:\Devise-CAD\frontend\src\services\api.ts
+  - Line 479: Empty block statement. (no-empty)
+FILE: D:\Devise-CAD\frontend\tailwind.config.ts
+  - Line 115: A `require()` style import is forbidden. (@typescript-eslint/no-require-imports)

@@ -8,9 +8,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12 md:mb-20">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-5">
-              <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center">
-                <Grid2x2 className="text-white w-5 h-5" />
-              </div>
+              <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain brightness-0 invert" />
               <span className="ml-2 text-xl font-bold text-white tracking-wide">Devise</span>
             </div>
             <p className="text-gray-400 max-w-sm text-balance leading-relaxed text-sm">

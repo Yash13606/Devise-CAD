@@ -50,9 +50,7 @@ export function LoginPage() {
 
         {/* TOP LEFT RECTANGLE LOGO */}
         <div className="absolute top-0 left-0 p-8 flex items-center gap-2 z-10">
-          <div className="w-8 h-8 bg-[#F04E23] rounded-lg flex items-center justify-center">
-            <Grid2x2 className="text-white w-4 h-4" />
-          </div>
+          <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain brightness-0 invert" />
           <span className="text-white font-bold text-lg">Devise</span>
         </div>
 
@@ -74,9 +72,7 @@ export function LoginPage() {
         <div className="max-w-md w-full">
           {/* MOBILE LOGO */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 bg-[#F04E23] rounded-lg flex items-center justify-center">
-              <Grid2x2 className="text-white w-4 h-4" />
-            </div>
+            <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain" />
             <span className="text-[#1A1A1A] font-bold text-lg">Devise</span>
           </div>
 
