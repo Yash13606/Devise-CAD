@@ -13,7 +13,7 @@ import {
   type DataRiskStats,
   type SensitivityFlag,
 } from "@/services/api";
-import { auth } from "@/lib/firebase";
+import { useAuth } from "@/lib/AuthContext";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 function fmtTs(ts: string | undefined) {
@@ -122,6 +122,7 @@ function EmployeeDrawer({ employee, events, onClose }: { employee: EmployeeRiskS
 
 // ─── Main Tab ────────────────────────────────────────────────────────────────
 export function DataRiskTab() {
+  const { user } = useAuth();
   const [events, setEvents] = useState<SensitivityEvent[]>([]);
   const [riskScores, setRiskScores] = useState<EmployeeRiskScore[]>([]);
   const [stats, setStats] = useState<DataRiskStats | null>(null);
@@ -152,7 +153,6 @@ export function DataRiskTab() {
   useEffect(() => {
     load();
     // Real-time listener for high-risk events
-    const user = auth.currentUser;
     if (user) {
       // Get orgId from profile first, then subscribe
       import("@/services/api").then(({ fetchMe }) => {
@@ -169,7 +169,7 @@ export function DataRiskTab() {
       });
     }
     return () => { unsubRef.current?.(); };
-  }, [load]);
+  }, [load, user]);
 
   const handleRebuild = async () => {
     setRebuilding(true);

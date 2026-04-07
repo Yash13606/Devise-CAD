@@ -20,15 +20,19 @@ def main():
     config_path = os.path.join(config_dir, "config.json")
 
     template = {
-        "firebase_project_id": "your-project-id",
-        "firebase_api_key": "your-web-api-key",
-        "service_account_path": r"C:\ProgramData\Devise\service_account.json",
+        "supabase_url": "https://your-project.supabase.co",
+        "supabase_key": "your-anon-or-service-key",
         "org_id": "your-org-id",
         "device_id": "",
         "poll_interval": 30,
         "heartbeat_interval": 300,
         "deduplication_window": 300,
-        "debug": False
+        "debug": False,
+        "identity": {
+            "user_id": "",
+            "user_email": "",
+            "department": ""
+        }
     }
 
     print("Devise Desktop Agent - Configuration Setup")
@@ -58,11 +62,10 @@ def main():
         print("1. Open the file:")
         print(f"   {config_path}")
         print("2. Fill in the following required values:")
-        print("   - firebase_project_id")
-        print("   - firebase_api_key")
+        print("   - supabase_url")
+        print("   - supabase_key")
         print("   - org_id")
-        print(f"3. Place your Firebase service account JSON key file at:")
-        print(f"   C:\\ProgramData\\Devise\\service_account.json")
+        print("3. Optional: Fill in identity fields if not using OS defaults.")
         print("=" * 60 + "\n")
 
     except PermissionError:

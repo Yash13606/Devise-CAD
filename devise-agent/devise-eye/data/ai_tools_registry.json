@@ -1,511 +1,97 @@
 {
-  "version": "2.0.0",
-  "last_updated": "2026-04-06T00:00:00Z",
+  "version": "4.0.0",
+  "last_updated": "2026-04-07T00:00:00Z",
   "tools": [
-    {
-      "domain": "chatgpt.com",
-      "tool_name": "ChatGPT",
-      "category": "Generative AI",
-      "vendor": "OpenAI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "chat.openai.com",
-      "tool_name": "ChatGPT",
-      "category": "Generative AI",
-      "vendor": "OpenAI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "openai.com",
-      "tool_name": "OpenAI Platform",
-      "category": "Generative AI",
-      "vendor": "OpenAI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api.openai.com",
-      "tool_name": "OpenAI API",
-      "category": "API",
-      "vendor": "OpenAI",
-      "risk_level": "high",
-      "enterprise_flag": true,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "oaiapi.blob.core.windows.net",
-      "tool_name": "OpenAI CDN",
-      "category": "CDN",
-      "vendor": "OpenAI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "oaistatic.com",
-      "tool_name": "ChatGPT Static",
-      "category": "CDN",
-      "vendor": "OpenAI",
-      "risk_level": "low",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "claude.ai",
-      "tool_name": "Claude",
-      "category": "Generative AI",
-      "vendor": "Anthropic",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "anthropic.com",
-      "tool_name": "Anthropic Console",
-      "category": "API",
-      "vendor": "Anthropic",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "api.anthropic.com",
-      "tool_name": "Claude API",
-      "category": "API",
-      "vendor": "Anthropic",
-      "risk_level": "high",
-      "enterprise_flag": true,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "gemini.google.com",
-      "tool_name": "Google Gemini",
-      "category": "Generative AI",
-      "vendor": "Google",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
+    { "domain": "chatgpt.com",                     "tool_name": "ChatGPT",              "category": "Generative AI",  "vendor": "OpenAI",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "chat.openai.com",                 "tool_name": "ChatGPT",              "category": "Generative AI",  "vendor": "OpenAI",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.openai.com",                  "tool_name": "OpenAI API",           "category": "API",            "vendor": "OpenAI",      "risk_level": "high",   "enterprise_flag": true,  "api_domain_flag": true  },
+    { "domain": "oaistatic.com",                   "tool_name": "ChatGPT",              "category": "CDN",            "vendor": "OpenAI",      "risk_level": "low",    "enterprise_flag": false, "api_domain_flag": false },
 
-    {
-      "domain": "aistudio.google.com",
-      "tool_name": "Google AI Studio",
-      "category": "Generative AI",
-      "vendor": "Google",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "github.com",
-      "tool_name": "GitHub Copilot",
-      "category": "Development",
-      "vendor": "Microsoft",
-      "risk_level": "low",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "copilot.github.com",
-      "tool_name": "GitHub Copilot",
-      "category": "Development",
-      "vendor": "Microsoft",
-      "risk_level": "medium",
-      "enterprise_flag": true,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "githubcopilot.com",
-      "tool_name": "GitHub Copilot",
-      "category": "Development",
-      "vendor": "Microsoft",
-      "risk_level": "medium",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "copilot.microsoft.com",
-      "tool_name": "Microsoft Copilot",
-      "category": "Generative AI",
-      "vendor": "Microsoft",
-      "risk_level": "medium",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "bing.com",
-      "tool_name": "Bing AI / Copilot",
-      "category": "Generative AI",
-      "vendor": "Microsoft",
-      "risk_level": "low",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "huggingface.co",
-      "tool_name": "Hugging Face",
-      "category": "Development",
-      "vendor": "Hugging Face",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api-inference.huggingface.co",
-      "tool_name": "Hugging Face Inference API",
-      "category": "API",
-      "vendor": "Hugging Face",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "midjourney.com",
-      "tool_name": "Midjourney",
-      "category": "Design/Media",
-      "vendor": "Midjourney",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "discord.com",
-      "tool_name": "Midjourney (via Discord)",
-      "category": "Design/Media",
-      "vendor": "Midjourney",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "stability.ai",
-      "tool_name": "Stable Diffusion / Stability AI",
-      "category": "Design/Media",
-      "vendor": "Stability AI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api.stability.ai",
-      "tool_name": "Stability AI API",
-      "category": "API",
-      "vendor": "Stability AI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "perplexity.ai",
-      "tool_name": "Perplexity AI",
-      "category": "Generative AI",
-      "vendor": "Perplexity",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api.perplexity.ai",
-      "tool_name": "Perplexity API",
-      "category": "API",
-      "vendor": "Perplexity",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "cursor.sh",
-      "tool_name": "Cursor IDE",
-      "category": "Development",
-      "vendor": "Anysphere",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "cursor.so",
-      "tool_name": "Cursor IDE",
-      "category": "Development",
-      "vendor": "Anysphere",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "codeium.com",
-      "tool_name": "Codeium",
-      "category": "Development",
-      "vendor": "Codeium",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "tabnine.com",
-      "tool_name": "Tabnine",
-      "category": "Development",
-      "vendor": "Tabnine",
-      "risk_level": "medium",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "writesonic.com",
-      "tool_name": "Writesonic",
-      "category": "Writing",
-      "vendor": "Writesonic",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "jasper.ai",
-      "tool_name": "Jasper AI",
-      "category": "Writing",
-      "vendor": "Jasper",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "copy.ai",
-      "tool_name": "Copy.ai",
-      "category": "Writing",
-      "vendor": "Copy.ai",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "grammarly.com",
-      "tool_name": "Grammarly",
-      "category": "Writing",
-      "vendor": "Grammarly",
-      "risk_level": "low",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "notion.so",
-      "tool_name": "Notion AI",
-      "category": "Productivity",
-      "vendor": "Notion",
-      "risk_level": "low",
-      "enterprise_flag": true,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "cohere.ai",
-      "tool_name": "Cohere",
-      "category": "API",
-      "vendor": "Cohere",
-      "risk_level": "high",
-      "enterprise_flag": true,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "api.cohere.ai",
-      "tool_name": "Cohere API",
-      "category": "API",
-      "vendor": "Cohere",
-      "risk_level": "high",
-      "enterprise_flag": true,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "mistral.ai",
-      "tool_name": "Mistral AI",
-      "category": "Generative AI",
-      "vendor": "Mistral",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api.mistral.ai",
-      "tool_name": "Mistral API",
-      "category": "API",
-      "vendor": "Mistral",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "together.ai",
-      "tool_name": "Together AI",
-      "category": "API",
-      "vendor": "Together AI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "api.together.xyz",
-      "tool_name": "Together AI API",
-      "category": "API",
-      "vendor": "Together AI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "replicate.com",
-      "tool_name": "Replicate",
-      "category": "API",
-      "vendor": "Replicate",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "elevenlabs.io",
-      "tool_name": "ElevenLabs",
-      "category": "Audio AI",
-      "vendor": "ElevenLabs",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "synthesia.io",
-      "tool_name": "Synthesia",
-      "category": "Video AI",
-      "vendor": "Synthesia",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "runway.ml",
-      "tool_name": "RunwayML",
-      "category": "Video AI",
-      "vendor": "Runway",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "pika.art",
-      "tool_name": "Pika Labs",
-      "category": "Video AI",
-      "vendor": "Pika Labs",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "suno.ai",
-      "tool_name": "Suno AI",
-      "category": "Audio AI",
-      "vendor": "Suno",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "udio.com",
-      "tool_name": "Udio",
-      "category": "Audio AI",
-      "vendor": "Udio",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "character.ai",
-      "tool_name": "Character.AI",
-      "category": "Generative AI",
-      "vendor": "Character.AI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "poe.com",
-      "tool_name": "Poe",
-      "category": "Generative AI",
-      "vendor": "Quora",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "you.com",
-      "tool_name": "You.com AI",
-      "category": "Generative AI",
-      "vendor": "You.com",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "meta.ai",
-      "tool_name": "Meta AI",
-      "category": "Generative AI",
-      "vendor": "Meta",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "llama.meta.com",
-      "tool_name": "Llama API",
-      "category": "API",
-      "vendor": "Meta",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "x.ai",
-      "tool_name": "Grok (xAI)",
-      "category": "Generative AI",
-      "vendor": "xAI",
-      "risk_level": "medium",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "grok.x.ai",
-      "tool_name": "Grok API",
-      "category": "API",
-      "vendor": "xAI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "deepseek.com",
-      "tool_name": "DeepSeek",
-      "category": "Generative AI",
-      "vendor": "DeepSeek",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    },
-    {
-      "domain": "api.deepseek.com",
-      "tool_name": "DeepSeek API",
-      "category": "API",
-      "vendor": "DeepSeek",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": true
-    },
-    {
-      "domain": "kimi.moonshot.cn",
-      "tool_name": "Kimi AI",
-      "category": "Generative AI",
-      "vendor": "Moonshot AI",
-      "risk_level": "high",
-      "enterprise_flag": false,
-      "api_domain_flag": false
-    }
+    { "domain": "claude.ai",                       "tool_name": "Claude",               "category": "Generative AI",  "vendor": "Anthropic",   "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.anthropic.com",               "tool_name": "Claude API",           "category": "API",            "vendor": "Anthropic",   "risk_level": "high",   "enterprise_flag": true,  "api_domain_flag": true  },
+
+    { "domain": "gemini.google.com",               "tool_name": "Google Gemini",        "category": "Generative AI",  "vendor": "Google",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "aistudio.google.com",             "tool_name": "Google AI Studio",     "category": "Generative AI",  "vendor": "Google",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "deepseek.com",                    "tool_name": "DeepSeek",             "category": "Generative AI",  "vendor": "DeepSeek",    "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "chat.deepseek.com",               "tool_name": "DeepSeek",             "category": "Generative AI",  "vendor": "DeepSeek",    "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.deepseek.com",                "tool_name": "DeepSeek API",         "category": "API",            "vendor": "DeepSeek",    "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "x.ai",                            "tool_name": "Grok",                 "category": "Generative AI",  "vendor": "xAI",         "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "grok.com",                        "tool_name": "Grok",                 "category": "Generative AI",  "vendor": "xAI",         "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.x.ai",                        "tool_name": "Grok API",             "category": "API",            "vendor": "xAI",         "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "perplexity.ai",                   "tool_name": "Perplexity AI",        "category": "Generative AI",  "vendor": "Perplexity",  "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.perplexity.ai",               "tool_name": "Perplexity API",       "category": "API",            "vendor": "Perplexity",  "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "meta.ai",                         "tool_name": "Meta AI",              "category": "Generative AI",  "vendor": "Meta",        "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "copilot.microsoft.com",           "tool_name": "Microsoft Copilot",    "category": "Generative AI",  "vendor": "Microsoft",   "risk_level": "medium", "enterprise_flag": true,  "api_domain_flag": false },
+
+    { "domain": "mistral.ai",                      "tool_name": "Mistral AI",           "category": "Generative AI",  "vendor": "Mistral",     "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "chat.mistral.ai",                 "tool_name": "Le Chat",              "category": "Generative AI",  "vendor": "Mistral",     "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.mistral.ai",                  "tool_name": "Mistral API",          "category": "API",            "vendor": "Mistral",     "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "groq.com",                        "tool_name": "Groq",                 "category": "API",            "vendor": "Groq",        "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.groq.com",                    "tool_name": "Groq API",             "category": "API",            "vendor": "Groq",        "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "poe.com",                         "tool_name": "Poe",                  "category": "Generative AI",  "vendor": "Quora",       "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "qwen.ai",                         "tool_name": "Qwen AI",              "category": "Generative AI",  "vendor": "Alibaba",     "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "chat.qwenlm.ai",                  "tool_name": "Qwen AI",              "category": "Generative AI",  "vendor": "Alibaba",     "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "tongyi.aliyun.com",               "tool_name": "Qwen AI",              "category": "Generative AI",  "vendor": "Alibaba",     "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "pi.ai",                           "tool_name": "Pi",                   "category": "Generative AI",  "vendor": "Inflection",  "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "github.com",                      "tool_name": "GitHub Copilot",       "category": "Development",    "vendor": "Microsoft",   "risk_level": "low",    "enterprise_flag": true,  "api_domain_flag": false },
+    { "domain": "copilot.github.com",              "tool_name": "GitHub Copilot",       "category": "Development",    "vendor": "Microsoft",   "risk_level": "medium", "enterprise_flag": true,  "api_domain_flag": true  },
+
+    { "domain": "cursor.sh",                       "tool_name": "Cursor AI",            "category": "Development",    "vendor": "Anysphere",   "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api2.cursor.sh",                  "tool_name": "Cursor AI",            "category": "Development",    "vendor": "Anysphere",   "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "codeium.com",                     "tool_name": "Codeium",              "category": "Development",    "vendor": "Codeium",     "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "windsurf.ai",                     "tool_name": "Windsurf",             "category": "Development",    "vendor": "Codeium",     "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "tabnine.com",                     "tool_name": "Tabnine",              "category": "Development",    "vendor": "Tabnine",     "risk_level": "medium", "enterprise_flag": true,  "api_domain_flag": false },
+
+    { "domain": "replit.com",                      "tool_name": "Replit AI",            "category": "Development",    "vendor": "Replit",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "huggingface.co",                  "tool_name": "Hugging Face",         "category": "Development",    "vendor": "HuggingFace", "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api-inference.huggingface.co",    "tool_name": "HuggingFace API",      "category": "API",            "vendor": "HuggingFace", "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "midjourney.com",                  "tool_name": "Midjourney",           "category": "Design/Media",   "vendor": "Midjourney",  "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "stability.ai",                    "tool_name": "Stable Diffusion",     "category": "Design/Media",   "vendor": "Stability AI","risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.stability.ai",                "tool_name": "Stability AI API",     "category": "API",            "vendor": "Stability AI","risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "runway.ml",                       "tool_name": "Runway",               "category": "Video AI",       "vendor": "Runway",      "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "elevenlabs.io",                   "tool_name": "ElevenLabs",           "category": "Audio AI",       "vendor": "ElevenLabs",  "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+    { "domain": "api.elevenlabs.io",               "tool_name": "ElevenLabs API",       "category": "API",            "vendor": "ElevenLabs",  "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  },
+
+    { "domain": "suno.ai",                         "tool_name": "Suno AI",              "category": "Audio AI",       "vendor": "Suno",        "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "udio.com",                        "tool_name": "Udio",                 "category": "Audio AI",       "vendor": "Udio",        "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "pika.art",                        "tool_name": "Pika Labs",            "category": "Video AI",       "vendor": "Pika Labs",   "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "leonardo.ai",                     "tool_name": "Leonardo.ai",          "category": "Design/Media",   "vendor": "Leonardo",    "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "lumalabs.ai",                     "tool_name": "Luma Dream Machine",   "category": "Video AI",       "vendor": "Luma AI",     "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "synthesia.io",                    "tool_name": "Synthesia",            "category": "Video AI",       "vendor": "Synthesia",   "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "notion.so",                       "tool_name": "Notion AI",            "category": "Productivity",   "vendor": "Notion",      "risk_level": "low",    "enterprise_flag": true,  "api_domain_flag": false },
+
+    { "domain": "grammarly.com",                   "tool_name": "Grammarly",            "category": "Writing",        "vendor": "Grammarly",   "risk_level": "low",    "enterprise_flag": true,  "api_domain_flag": false },
+
+    { "domain": "canva.com",                       "tool_name": "Canva Magic Studio",   "category": "Design/Media",   "vendor": "Canva",       "risk_level": "low",    "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "otter.ai",                        "tool_name": "Otter.ai",             "category": "Productivity",   "vendor": "Otter",       "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "fireflies.ai",                    "tool_name": "Fireflies.ai",         "category": "Productivity",   "vendor": "Fireflies",   "risk_level": "medium", "enterprise_flag": false, "api_domain_flag": false },
+
+    { "domain": "replicate.com",                   "tool_name": "Replicate",            "category": "API",            "vendor": "Replicate",   "risk_level": "high",   "enterprise_flag": false, "api_domain_flag": true  }
+
   ]
 }

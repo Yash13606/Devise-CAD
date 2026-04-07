@@ -1,155 +1,83 @@
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut as firebaseSignOut,
-  updateProfile,
-  type User 
-} from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { updateLastActive } from "@/services/api";
-import { auth, db } from "@/lib/firebase";
+import { useAuth0 } from "@auth0/auth0-react";
 
-interface AuthContextType {
-  user: User | MockUser | null;
-  session: User | MockUser | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, fullName?: string) => Promise<{ error: Error | null }>;
-  signOut: () => Promise<void>;
-  isDemoMode: boolean;
-}
+// ─── Types ──────────────────────────────────────────────────────────────────
 
-// Mock user for demo mode
-interface MockUser {
+interface AuthUser {
   uid: string;
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
-  emailVerified: boolean;
-  isMock: true;
+}
+
+interface AuthContextType {
+  user: AuthUser | null;
+  session: AuthUser | null;
+  loading: boolean;
+  signIn: () => void;
+  signUp: () => void;
+  signOut: () => Promise<void>;
+  isDemoMode: false;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo mode flag - enable to bypass Firebase
-const DEMO_MODE = import.meta.env.VITE_DEMO_MODE !== "false";
+// ─── Provider ───────────────────────────────────────────────────────────────
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const {
+    user: auth0User,
+    isLoading,
+    loginWithRedirect,
+    logout,
+  } = useAuth0();
 
-// Demo user for when Firebase is not available
-const DEMO_USER: MockUser = {
-  uid: "demo-user-123",
-  email: "demo@company.com",
-  displayName: "Demo User",
-  photoURL: null,
-  emailVerified: true,
-  isMock: true,
-};
-
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | MockUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (DEMO_MODE) {
-      // Demo mode - auto-login with mock user
-      console.log("[Demo Mode] Using mock authentication");
-      setUser(DEMO_USER);
-      setLoading(false);
-      return;
-    }
-
-    // Real Firebase auth
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser) {
-        await updateLastActive();
-        if (db) {
-          const profileRef = doc(db, "profiles", firebaseUser.uid);
-          const profileSnap = await getDoc(profileRef);
-          if (profileSnap.exists()) {
-            const data = profileSnap.data();
-            if (data.dark_mode !== undefined) {
-              document.documentElement.classList.toggle("dark", data.dark_mode);
-              localStorage.setItem("theme", data.dark_mode ? "dark" : "light");
-            }
-          }
-        }
+  // Map Auth0 user to the shape the rest of the app expects
+  const user: AuthUser | null = auth0User
+    ? {
+        uid: auth0User.sub ?? "",
+        email: auth0User.email ?? null,
+        displayName: auth0User.name ?? auth0User.nickname ?? null,
+        photoURL: auth0User.picture ?? null,
       }
-      setLoading(false);
-    });
+    : null;
 
-    return () => unsubscribe();
-  }, []);
-
-  const signIn = async (email: string, password: string) => {
-    if (DEMO_MODE) {
-      setUser(DEMO_USER);
-      return { error: null };
-    }
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      return { error: null };
-    } catch (error) {
-      return { error: error as Error };
-    }
+  const signIn = () => {
+    loginWithRedirect();
   };
 
-  const signUp = async (email: string, password: string, fullName?: string) => {
-    if (DEMO_MODE) {
-      setUser({ ...DEMO_USER, email, displayName: fullName || email.split('@')[0] });
-      return { error: null };
-    }
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      if (fullName && user) {
-        await updateProfile(user, { displayName: fullName });
-      }
-
-      return { error: null };
-    } catch (error) {
-      return { error: error as Error };
-    }
+  const signUp = () => {
+    loginWithRedirect({ authorizationParams: { screen_hint: "signup" } });
   };
 
   const signOut = async () => {
-    if (DEMO_MODE) {
-      setUser(null);
-      return;
-    }
-    try {
-      await firebaseSignOut(auth);
-    } catch (error) {
-      console.error("Sign out error:", error);
-    }
+    logout({
+      logoutParams: { returnTo: window.location.origin },
+    });
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      session: user,
-      loading, 
-      signIn, 
-      signUp, 
-      signOut,
-      isDemoMode: DEMO_MODE 
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        session: user,
+        loading: isLoading,
+        signIn,
+        signUp,
+        signOut,
+        isDemoMode: false,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
+
+// ─── Hook ───────────────────────────────────────────────────────────────────
 
 export function useAuth() {
   const context = useContext(AuthContext);

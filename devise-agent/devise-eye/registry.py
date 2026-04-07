@@ -89,16 +89,38 @@ class Registry:
         self._load_registry(registry_path)
 
     def preload_dns(self) -> None:
-        """Resolve all registry domains to IPs at startup."""
+        """Resolve all registry domains to IPs at startup.
+        
+        IPs claimed by more than one tool (shared CDN IPs like Cloudflare)
+        are marked ambiguous and excluded from the IP map so they fall
+        through to the DNS-cache / reverse-DNS phase instead.
+        """
+        ip_claimants: dict = {}  # ip -> list of entries that resolve to it
+
         for entry in self._entries:
             try:
                 results = socket.getaddrinfo(entry.domain, None)
                 for r in results:
                     ip = r[4][0]
-                    self._ip_to_entry[ip] = entry
+                    if ip not in ip_claimants:
+                        ip_claimants[ip] = []
+                    ip_claimants[ip].append(entry)
             except Exception:
                 pass
-        logger.info(f"Pre-resolved {len(self._ip_to_entry)} IPs from registry")
+
+        # Only map IPs that are unambiguously owned by a single tool
+        ambiguous = 0
+        for ip, entries in ip_claimants.items():
+            if len(entries) == 1:
+                self._ip_to_entry[ip] = entries[0]
+            else:
+                ambiguous += 1  # shared CDN IP — skip
+
+        logger.info(
+            f"Pre-resolved {len(self._ip_to_entry)} unambiguous IPs "
+            f"({ambiguous} shared CDN IPs excluded from IP map)"
+        )
+
 
     def find_match_by_ip(self, ip: str) -> Optional[RegistryEntry]:
         """Direct IP lookup — works for CDN-hosted tools."""

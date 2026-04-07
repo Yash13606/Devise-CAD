@@ -3,9 +3,8 @@ import { X, Bell, Shield, Mail, Key, Layout, Check, AlertTriangle, User } from "
 import { useAuth } from "@/lib/AuthContext";
 import { useMe } from "@/hooks/useDashboard";
 import { updateMe } from "@/services/api";
-import { auth } from "@/lib/firebase";
-import { updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { toast } from "sonner";
+
 
 interface AccountSettingsPanelProps {
   isOpen: boolean;
@@ -58,12 +57,6 @@ export function AccountSettingsPanel({ isOpen, onClose }: AccountSettingsPanelPr
   const handleSaveSettings = async () => {
     setIsSaving(true);
     try {
-      if (fullName && fullName !== profile?.full_name) {
-        if (auth.currentUser) {
-          await updateProfile(auth.currentUser, { displayName: fullName });
-        }
-      }
-      
       await updateMe({
         full_name: fullName,
         notification_prefs: notificationPrefs
@@ -79,17 +72,8 @@ export function AccountSettingsPanel({ isOpen, onClose }: AccountSettingsPanelPr
   };
 
   const handlePasswordReset = async () => {
-    if (!user?.email) return;
-    setIsResettingPassword(true);
-    try {
-      await sendPasswordResetEmail(auth, user.email);
-      toast.success("Password reset email sent!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to send reset email");
-    } finally {
-      setIsResettingPassword(false);
-    }
+    // Password management is handled via Auth0 — redirect user to Auth0 account
+    toast.info("To change your password, use the Auth0 login page or contact your admin.");
   };
 
   if (!isOpen && !isClosing) return null;

@@ -190,6 +190,32 @@ class DeviseAgent:
         # Disable legacy HTTP post to missing event API for Supabase
         pass
 
+    def _get_hostname_from_dns_cache(self, ip: str) -> "Optional[str]":
+        """Query Windows DNS cache to find which domain recently resolved to this IP.
+        
+        This is far more accurate than reverse-DNS for CDN-hosted tools (Cloudflare,
+        AWS, etc.) because it tells us which domain the browser actually looked up.
+        """
+        if sys.platform != "win32":
+            return None
+        try:
+            import subprocess
+            result = subprocess.run(
+                [
+                    "powershell", "-NoProfile", "-Command",
+                    f"Get-DnsClientCache | Where-Object {{$_.Data -eq '{ip}'}} "
+                    f"| Select-Object -First 1 -ExpandProperty Entry",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=2,
+                creationflags=subprocess.CREATE_NO_WINDOW,
+            )
+            hostname = result.stdout.strip()
+            return hostname if hostname else None
+        except Exception:
+            return None
+
     async def _process_connection(self, connection: dict) -> None:
         """Process a single connection.
 
@@ -202,10 +228,21 @@ class DeviseAgent:
         if not remote_ip:
             return
 
-        # Phase 1 Match: Try direct IP match FIRST for CDN tools like ChatGPT
-        entry = self._registry.find_match_by_ip(remote_ip)
-        
-        # Phase 2 Match: Fall back to reverse DNS + hostname match
+        # Phase 0 Match: Windows DNS cache — most accurate for browser traffic.
+        # Tells us the exact domain the browser resolved for this IP, handling
+        # CDN collisions (e.g. qwen.ai vs claude.ai on shared Cloudflare IPs).
+        entry = None
+        cached_hostname = self._get_hostname_from_dns_cache(remote_ip)
+        if cached_hostname:
+            entry = self._registry.find_match(cached_hostname)
+            if entry:
+                logger.debug(f"DNS cache match: {remote_ip} → {cached_hostname} → {entry.tool_name}")
+
+        # Phase 1 Match: Preloaded unambiguous IP→tool map (dedicated IPs only)
+        if not entry:
+            entry = self._registry.find_match_by_ip(remote_ip)
+
+        # Phase 2 Match: Reverse DNS + hostname match (fallback)
         if not entry:
             hostname = self._dns_resolver.reverse_lookup(remote_ip)
             if hostname:
@@ -215,11 +252,7 @@ class DeviseAgent:
             logger.debug(f"No registry match for IP {remote_ip}")
             return
 
-        # Check deduplication
-        if not self._deduplicator.should_report(entry.tool_name, str(pid)):
-            return
-
-        # Get process name and path (FR-06, FR-07)
+        # Get process name and path early — needed for dedup key
         process_name = connection.get("process_name", "unknown")
         process_path = connection.get("process_path", "")
 
@@ -228,6 +261,15 @@ class DeviseAgent:
                 process_info = self._detector.get_process_info(pid)
                 process_name = process_info.get("process_name", "unknown")
                 process_path = process_info.get("process_path", "")
+
+        # Deduplicate by tool + process NAME (not PID).
+        # Browsers spawn a new PID per tab — using PID would let the same
+        # tool fire once per tab. Process name (e.g. "brave.exe") keeps all
+        # tabs of the same browser in one dedup bucket.
+        dedup_process = process_name if process_name and process_name != "unknown" else str(pid)
+        if not self._deduplicator.should_report(entry.tool_name, dedup_process):
+            return
+
 
         # Get I/O counters (FR-11)
         bytes_read = None

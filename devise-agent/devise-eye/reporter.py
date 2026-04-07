@@ -154,9 +154,11 @@ class SupabaseReporter:
         for event in pending:
             queue_id = event.get("_queue_id")
             
-            # Clean queue_id metadata before sending to Supabase to prevent schema errors
+            # Strip ALL internal queue metadata before sending to Supabase
             clean_event = event.copy()
             clean_event.pop("_queue_id", None)
+            clean_event.pop("_retry_count", None)
+            clean_event.pop("_created_at", None)
             
             if await self.report_event(clean_event):
                 if queue_id:

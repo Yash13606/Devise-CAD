@@ -1,6 +1,5 @@
 fastapi
 uvicorn[standard]
-firebase-admin
 python-jose[cryptography]
 python-dotenv
 pydantic

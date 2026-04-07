@@ -157,7 +157,7 @@ class Config:
     @property
     def deduplication_window(self) -> int:
         """Get deduplication window in seconds."""
-        return self._get("deduplication_window", 300)
+        return self._get("deduplication_window", 60)
 
     @property
     def debug_mode(self) -> bool:

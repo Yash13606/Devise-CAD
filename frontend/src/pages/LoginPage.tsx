@@ -1,38 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Grid2x2, Eye, EyeOff, ChevronLeft, Loader2 } from "lucide-react";
+import { ChevronLeft, Loader2, LogIn, ShieldCheck, Globe, Zap } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
   const { signIn } = useAuth();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError("Please fill in all fields");
-      return;
-    }
-    setError("");
+  const handleLogin = async () => {
     setLoading(true);
-    
     try {
-      const { error: authError } = await signIn(email, password);
-      if (authError) {
-        setError(authError.message);
-      } else {
-        navigate("/dashboard");
-      }
-    } catch (err: any) {
-      setError("An unexpected error occurred");
-    } finally {
+      await signIn();
+    } catch (err) {
+      console.error("Login redirect failed", err);
       setLoading(false);
     }
   };
@@ -50,11 +30,28 @@ export function LoginPage() {
 
         {/* TOP LEFT RECTANGLE LOGO */}
         <div className="absolute top-0 left-0 p-8 flex items-center gap-2 z-10">
-          <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain brightness-0 invert" />
-          <span className="text-white font-bold text-lg">Devise</span>
+          <div className="w-8 h-8 rounded-lg bg-[#F04E23] flex items-center justify-center p-1.5 shadow-lg shadow-orange-500/20">
+            <Zap className="text-white fill-white" size={16} />
+          </div>
+          <span className="text-white font-bold text-lg tracking-tight">Devise</span>
         </div>
 
-
+        {/* Branding Message */}
+        <div className="absolute bottom-20 left-12 right-12 z-10 max-w-lg">
+          <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
+            Secure your AI-powered workspace.
+          </h2>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3 text-white/70">
+              <ShieldCheck className="text-[#F04E23]" size={20} />
+              <span className="text-sm font-medium">Enterprise-grade identity protection</span>
+            </div>
+            <div className="flex items-center gap-3 text-white/70">
+              <Globe className="text-[#F04E23]" size={20} />
+              <span className="text-sm font-medium">Centralized oversight for global teams</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* RIGHT PANEL */}
@@ -69,115 +66,66 @@ export function LoginPage() {
         </Link>
 
         {/* FORM CONTAINER */}
-        <div className="max-w-md w-full">
+        <div className="max-w-md w-full flex flex-col items-center">
           {/* MOBILE LOGO */}
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <img src="/src/assets/logo.svg" alt="Devise Logo" className="h-8 w-auto object-contain" />
+          <div className="lg:hidden flex items-center gap-2 mb-12">
+            <div className="w-8 h-8 rounded-lg bg-[#F04E23] flex items-center justify-center p-1.5">
+              <Zap className="text-white fill-white" size={16} />
+            </div>
             <span className="text-[#1A1A1A] font-bold text-lg">Devise</span>
           </div>
 
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold font-display text-[#1A1A1A] mb-1">Welcome back</h1>
-            <p className="text-sm text-gray-500">Sign in to your Devise account</p>
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-bold text-[#1A1A1A] mb-3 tracking-tight">Welcome to Devise</h1>
+            <p className="text-gray-500 max-w-xs mx-auto">
+              Please sign in to access your secure AI dashboard.
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-1.5 block">
-                Work Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@company.com"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#F04E23] focus:ring-1 focus:ring-[#F04E23] transition-colors"
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between items-center mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 block">
-                  Password
-                </label>
-                <Link to="#" className="text-xs text-[#F04E23] hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#F04E23] focus:ring-1 focus:ring-[#F04E23] transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-              {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
-            </div>
-
+          <div className="w-full space-y-6">
             <button
-              type="submit"
+              onClick={handleLogin}
               disabled={loading}
-              className="w-full bg-[#F04E23] text-white rounded-xl py-3.5 font-semibold text-sm mt-2 hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#F04E23] text-white rounded-2xl py-4 font-semibold text-base shadow-xl shadow-orange-500/10 hover:shadow-orange-500/20 hover:bg-orange-600 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 border border-orange-500/20"
             >
-              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {loading ? "Signing In..." : "Sign In"}
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <LogIn className="w-5 h-5" />
+              )}
+              {loading ? "Redirecting..." : "Sign In to Portal"}
             </button>
-          </form>
 
-          <div className="flex items-center gap-3 my-4 text-gray-100">
-            <div className="flex-1 h-px bg-gray-100" />
-            <span className="text-xs text-gray-400">or</span>
-            <div className="flex-1 h-px bg-gray-100" />
+            <div className="flex flex-col gap-4">
+              <p className="text-center text-xs text-gray-400 leading-relaxed px-8 font-medium">
+                Identity and access management is securely handled via Auth0 for enterprise compliance.
+              </p>
+              <div className="flex items-center gap-4 justify-center pt-2">
+                <div className="flex items-center gap-1 text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+                  <ShieldCheck size={10} className="text-green-500" />
+                  SOC2
+                </div>
+                <div className="flex items-center gap-1 text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+                  <ShieldCheck size={10} className="text-blue-500" />
+                  GDPR
+                </div>
+              </div>
+            </div>
           </div>
 
-          <button className="w-full border border-gray-200 rounded-xl py-3.5 flex items-center justify-center gap-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-            <svg viewBox="0 0 24 24" className="w-[18px] h-[18px]">
-              <path
-                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                fill="#4285F4"
-              />
-              <path
-                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                fill="#34A853"
-              />
-              <path
-                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
-                fill="#FBBC05"
-              />
-              <path
-                d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                fill="#EA4335"
-              />
-            </svg>
-            Continue with Google
-          </button>
+          <div className="mt-12 text-center">
+            <p className="text-sm text-gray-500">
+              Don't have an account yet?
+              <Link to="/signup" className="text-[#F04E23] font-semibold hover:underline ml-1">
+                Get Started
+              </Link>
+            </p>
+          </div>
+        </div>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Don't have an account?
-            <Link to="/signup" className="text-[#F04E23] font-medium hover:underline ml-1">
-              Sign up
-            </Link>
-          </p>
-
-          <p className="text-center text-xs text-gray-400 mt-8">
-            By signing in you agree to our{" "}
-            <Link to="#" className="text-gray-400 hover:text-[#F04E23] underline transition-colors">
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link to="#" className="text-gray-400 hover:text-[#F04E23] underline transition-colors">
-              Privacy Policy
-            </Link>
-          </p>
+        {/* Footer info */}
+        <div className="absolute bottom-8 text-[10px] text-gray-300 font-medium">
+          Powered by Devise Shield&trade; Technology
         </div>
       </div>
     </div>
