@@ -1,147 +1,497 @@
-# Devise — AI Governance Platform
+# Devise-CAD: AI Governance & Monitoring Platform
+
+**A comprehensive, multi-tier platform for monitoring AI tool usage, managing organizational spend, tracking event logs, and enforcing AI governance policies across enterprise environments.**
+
+![Status](https://img.shields.io/badge/Status-Beta-yellow) ![Node](https://img.shields.io/badge/Node-18+-green) ![Python](https://img.shields.io/badge/Python-3.10+-blue) ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## Architecture
+## 📋 Overview
+
+Devise-CAD is a **4-tier AI governance platform** designed to:
+
+- 🔍 **Monitor AI Tool Usage** - Track ChatGPT, Claude, Cursor, and other AI tools in real-time
+- 📊 **Analytics & Dashboards** - Real-time analytics with live feed and event tracking
+- 🛡️ **Governance Enforcement** - JSON-RPC threat detection and ToolGuard protection
+- 💼 **Spend Management** - Track organizational AI tool spend and usage patterns
+- 🔐 **Enterprise Security** - Auth0 JWT validation, Row-Level Security, multi-tenant support
+- ⛓️ **Audit Trail** - Blockchain-style append-only audit ledger
+
+---
+
+## 🏗️ System Architecture
 
 ```
-[Browser] ──→ chatgpt.com / claude.ai / qwen.ai / ...
-                      │
-            [Desktop Agent]  ← Python, psutil
-              Detects AI tool via DNS cache + registry
-                      │
-                      ▼
-              [Supabase DB]
-        detection_events / heartbeats / firewall_rules
-           Realtime WebSocket ──→ [Dashboard]
-                                  localhost:8081
-
-[MCP Gateway]  localhost:3001
-  Auth0 JWT verification + audit logging
+┌─────────────────────────────────────────────────────────────────────┐
+│                        USER BROWSER                                 │
+│                    (React Vite Dashboard)                            │
+│                      localhost:5173 / 8081                           │
+└────────────────┬────────────────────────┬──────────────────────────┘
+                 │                        │
+            Auth0 JWT              Supabase Client
+                 │                        │
+┌────────────────▼────────────────────────▼──────────────────────────┐
+│              FRONTEND (React 18 + Vite)                              │
+│  ├─ AuthContext (Auth0 integration)                                 │
+│  ├─ Dashboard (Devices, Alerts, Analytics, LiveFeed)                │
+│  ├─ TanStack Query (server state management)                        │
+│  └─ Real-time Subscriptions (Supabase WebSocket)                    │
+└────────────────┬────────────────────────────────────────────────────┘
+                 │
+                 │ Auth0 JWT + JSON-RPC
+                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│              MCP GATEWAY (Fastify, localhost:3001)                   │
+│  ├─ Auth0 JWT Verification (JWKS client)                            │
+│  ├─ Rate Limiting (100 req/min per client)                          │
+│  ├─ ToolGuard: Payload inspection & threat detection                │
+│  ├─ Blockchain-based Audit Ledger (append-only SHA-256 chain)       │
+│  └─ Error handling & validation                                     │
+└──────────────────────┬────────────────────────────────────────────┘
+                       │
+         ┌─────────────┼─────────────────────┐
+         ▼             ▼                     ▼
+    Supabase      FastAPI              Auth0
+   PostgreSQL    (localhost            JWT/OIDC
+    + RLS          :8000)              Tokens
 ```
 
 ---
 
-## Requirements
+## 🚀 Tech Stack
 
-- Node.js 18+
-- Python 3.10+
-- Supabase project
-- Auth0 application
+### Frontend
+- **React 18** + TypeScript
+- **Vite** - Lightning-fast build tool
+- **Tailwind CSS + Radix UI** - Styling & accessible components
+- **Auth0** - JWT-based authentication
+- **TanStack Query** - Server state & data fetching
+- **Supabase Client** - Real-time WebSocket subscriptions
+- **React Router** - Client-side routing
+
+### MCP Gateway (Middleware)
+- **Fastify** - Fast Node.js web framework
+- **TypeScript** - Type safety
+- **Auth0 JWKS Client** - JWT validation
+- **Rate Limiter** - Request throttling
+- **ToolGuard** - Payload inspection & threat detection
+- **Supabase Client** - Audit ledger storage
+
+### Backend API
+- **FastAPI** (Python) - Asynchronous web framework
+- **Uvicorn** - ASGI server
+- **Supabase SDK** - PostgreSQL ORM & authentication
+- **Pydantic V2** - Data validation
+
+### Desktop Agent
+- **Python 3.10+** - Process & DNS monitoring
+- **Windows Registry** - System monitoring
+- **Firewall Monitoring** - Network policy enforcement
+- **AI Tools Detection** - ChatGPT, Claude, Cursor detection
+
+### Database & Auth
+- **Supabase PostgreSQL** - Primary data store with RLS
+- **Auth0** - JWT token management & OIDC
 
 ---
 
-## Install
+## 📂 Project Structure
+
+```
+Devise-CAD/
+├── frontend/                  # React Vite dashboard
+│   ├── src/
+│   │   ├── components/       # Reusable UI components
+│   │   ├── pages/           # Page components
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── services/        # API service clients
+│   │   ├── lib/             # Utilities (AuthContext, Supabase, etc.)
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── tsconfig.json
+│
+├── mcp-gateway/              # Fastify middleware gateway
+│   ├── server.ts            # Main server file
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── migrations/          # Supabase audit ledger SQL
+│
+├── api/                      # FastAPI backend entry point
+│   └── index.py             # Vercel ASGI handler
+│
+├── devise-agent/
+│   └── devise-eye/          # Python desktop agent
+│       ├── main.py          # Entry point
+│       ├── detector.py      # AI tools detector
+│       ├── process_resolver.py
+│       ├── dns_resolver.py
+│       ├── firewall_monitor.py
+│       └── requirements.txt
+│
+├── docs/                    # Documentation
+│   ├── PROJECT_DETAILS.md
+│   ├── codebase_context.md
+│   └── backend-overview.md
+│
+├── RUNNING_AND_TESTING.md   # Complete setup & test guide
+├── AUDIT_REPORT.md          # Security & code quality audit
+├── README.md                # This file
+├── package.json             # Root workspace config
+├── requirements.txt         # Python dependencies
+├── .env                     # Environment variables template
+├── .gitignore
+└── start.bat               # Windows batch script to launch all services
+```
+
+---
+
+## 🔧 Prerequisites
+
+Before you begin, ensure you have:
+
+- **Node.js 18+** - For frontend & MCP gateway
+- **Python 3.10+** - For backend API & desktop agent
+- **Supabase Account** - https://supabase.com (PostgreSQL database + auth)
+- **Auth0 Account** - https://auth0.com (JWT token management)
+- **Git** - For version control
+
+### Required Accounts & Services
+
+| Service | Purpose | Link |
+|---------|---------|------|
+| Supabase | PostgreSQL database, RLS, real-time | https://app.supabase.com |
+| Auth0 | JWT token management, OIDC | https://manage.auth0.com |
+| GitHub | Code repository | https://github.com |
+
+---
+
+## 📦 Installation
+
+### 1. Clone Repository
 
 ```bash
-cd frontend && npm install
+git clone https://github.com/Yash13606/Devise-CAD.git
+cd Devise-CAD
+```
+
+### 2. Install All Dependencies
+
+**Option A: Automated (Recommended)**
+```bash
+npm run install:all
+```
+
+**Option B: Manual**
+```bash
+# Install frontend dependencies
+cd frontend
+npm install
+
+# Install MCP gateway dependencies
+cd ../mcp-gateway
+npm install
+
+# Install backend dependencies (from root)
+cd ..
+pip install -r requirements.txt
+
+# Install agent dependencies
+cd devise-agent/devise-eye
 pip install -r requirements.txt
 ```
 
----
+### 3. Environment Configuration
 
-## Environment Files
+Create `.env` files in each directory:
 
 **`frontend/.env`**
-```
-VITE_AUTH0_DOMAIN=
-VITE_AUTH0_CLIENT_ID=
-VITE_AUTH0_AUDIENCE=
-VITE_DEMO_MODE=false
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
-```
-
-**`mcp/.env`**
-```
-AUTH0_DOMAIN=
-AUTH0_AUDIENCE=
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-PORT=3001
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+VITE_AUTH0_DOMAIN=your-domain.auth0.com
+VITE_AUTH0_CLIENT_ID=your_client_id
+VITE_AUTH0_AUDIENCE=https://your-gateway.example.com
+VITE_GATEWAY_URL=http://localhost:3001
 ```
 
-**`devise-agent/devise-eye/.env`**
+**`mcp-gateway/.env`**
+```env
+FASTIFY_PORT=3001
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+AUTH0_DOMAIN=your-domain.auth0.com
+AUTH0_CLIENT_ID=your_client_id
+AUTH0_AUDIENCE=https://your-gateway.example.com
+JWKS_URI=https://your-domain.auth0.com/.well-known/jwks.json
 ```
-SUPABASE_URL=
-SUPABASE_KEY=          # use service role key
+
+**`api/.env`** (if using FastAPI backend)
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+AUTH0_DOMAIN=your-domain.auth0.com
+```
+
+### 4. Configure Supabase
+
+1. Create required tables:
+   - `audit_ledger` - Append-only audit trail
+   - `devices` - Connected devices
+   - `events` - Event logs
+   - `organizations` - Multi-tenant support
+
+2. Enable RLS policies:
+   ```sql
+   -- Example RLS policy for multi-tenant isolation
+   ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
+   
+   CREATE POLICY org_isolation ON public.events
+     FOR ALL USING (org_id = auth.uid()::text);
+   ```
+
+3. Migration file available at: `mcp-gateway/migrations/01_mcp_audit_ledger.sql`
+
+---
+
+## 🚀 Running the Project
+
+### Quick Start (All Services at Once)
+
+**Windows:**
+```bash
+npm start
+```
+
+This launches all 4 services simultaneously:
+- **Frontend:** http://localhost:5173 (or 8081)
+- **MCP Gateway:** http://localhost:3001
+- **FastAPI Backend:** http://localhost:8000
+- **Desktop Agent:** Runs in background
+
+**macOS/Linux:**
+```bash
+npm start
+```
+
+### Individual Services
+
+**Frontend Only:**
+```bash
+cd frontend
+npm run dev
+# Accessible at http://localhost:5173
+```
+
+**MCP Gateway Only:**
+```bash
+cd mcp-gateway
+npx tsx server.ts
+# Accessible at http://localhost:3001
+```
+
+**Backend API Only:**
+```bash
+python -m uvicorn api.index:app --reload --port 8000
+# Swagger docs at http://localhost:8000/docs
+```
+
+**Desktop Agent Only:**
+```bash
+cd devise-agent/devise-eye
+python main.py
 ```
 
 ---
 
-## Auth0 Setup
+## 🧪 Testing & Verification
 
-Go to Auth0 Dashboard → Applications → your app → Settings.
+See [RUNNING_AND_TESTING.md](./RUNNING_AND_TESTING.md) for comprehensive testing guide including:
 
-Add `http://localhost:8081` to:
-- Allowed Callback URLs
-- Allowed Logout URLs
-- Allowed Web Origins
-
----
-
-## Supabase Tables
-
-Run once in SQL Editor:
-
-```sql
--- Required tables (agent writes to these)
--- detection_events  — 27 columns (see schema in /docs)
--- heartbeats        — 7 columns
--- firewall_rules    — 6 columns
-
--- Enable Realtime on all three tables
--- Database → Replication → toggle on
-```
+- ✅ Authentication flow verification
+- ✅ Gateway JWT validation
+- ✅ Rate limiting tests
+- ✅ ToolGuard payload inspection
+- ✅ Audit ledger chain verification
+- ✅ Real-time subscription testing
+- ✅ Multi-tenant RLS validation
+- ✅ Frontend integration tests
+- ✅ Full E2E workflow
 
 ---
 
-## Run
+## 📊 Dashboard Usage
+
+Once running, navigate to `http://localhost:5173`:
+
+1. **Login** - Sign in with Auth0
+2. **Dashboard** - View real-time analytics
+3. **Devices** - Monitor connected agents
+4. **Alerts** - View security alerts & ToolGuard blocks
+5. **Analytics** - Track AI tool usage & spend
+6. **Live Feed** - Real-time event stream
+
+---
+
+## 🔐 Security Considerations
+
+### Current Status ⚠️
+
+The platform has **5 CRITICAL security issues** that must be fixed before production:
+
+1. ⚠️ **Supabase key exposure** - Frontend uses SERVICE_ROLE_KEY instead of ANON_KEY
+2. ⚠️ **CORS misconfiguration** - Accepts all origins (`*`)
+3. ⚠️ **JWT verification bypass** - Promise handling bug in auth middleware
+4. ⚠️ **ToolGuard trivially bypassable** - String matching only (insufficient)
+5. ⚠️ **Auth0 audience mismatch** - Gateway JWT validation always fails
+
+**See [AUDIT_REPORT.md](./AUDIT_REPORT.md) for detailed findings and fixes.**
+
+### Best Practices Implemented
+
+✅ Row-Level Security (RLS) on all tables  
+✅ JWT token validation via JWKS  
+✅ Rate limiting (100 req/min)  
+✅ Audit trail (append-only ledger)  
+✅ TypeScript type safety  
+✅ Environment variable validation  
+
+---
+
+## 📚 Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [RUNNING_AND_TESTING.md](./RUNNING_AND_TESTING.md) | Complete setup, configuration & testing guide |
+| [AUDIT_REPORT.md](./AUDIT_REPORT.md) | Security audit, code quality findings, fix recommendations |
+| [docs/PROJECT_DETAILS.md](./docs/PROJECT_DETAILS.md) | Project overview & tech stack |
+| [docs/backend-overview.md](./docs/backend-overview.md) | FastAPI backend architecture |
+| [docs/codebase_context.md](./docs/codebase_context.md) | Codebase context & structure |
+
+---
+
+## 🐛 Known Issues & Roadmap
+
+### Phase 1: Critical Security Fixes 🔴
+- [ ] Fix Supabase key exposure (use ANON_KEY in frontend)
+- [ ] Fix CORS policy (restrict to allowed origins)
+- [ ] Fix JWT verification promise handling
+- [ ] Improve ToolGuard detection (ML-based, not string matching)
+- [ ] Fix Auth0 audience configuration
+
+### Phase 2: High-Priority Fixes 🟠
+- [ ] Fix Vite dev server port configuration
+- [ ] Improve error handling (ledger insert failures)
+- [ ] Add Supabase connection validation
+
+### Phase 3: Medium-Priority Improvements 🟡
+- [ ] Add real-time subscription cleanup
+- [ ] Add Redis-backed rate limiter
+- [ ] Add TypeScript strict type safety
+- [ ] Add environment variable validation on startup
+
+### Phase 4: Testing & Documentation 🔵
+- [ ] Add comprehensive test suite
+- [ ] Add CI/CD pipeline
+- [ ] Add Docker support
+- [ ] Add Kubernetes deployment
+
+---
+
+## 🤝 Contributing
+
+1. **Create a branch** - `git checkout -b feature/your-feature`
+2. **Make changes** - Implement your feature
+3. **Run tests** - Verify everything works
+4. **Commit** - `git commit -am "Add feature description"`
+5. **Push** - `git push origin feature/your-feature`
+6. **Submit PR** - Create a Pull Request
+
+---
+
+## 📝 Development Workflow
+
+### Setting Up for Development
 
 ```bash
-.\start.bat
+# Install dev dependencies
+npm run install:all
+
+# Copy environment templates
+cp .env.example frontend/.env
+cp .env.example mcp-gateway/.env
+
+# Start development servers
+npm start
+
+# In another terminal, run tests
+npm run test
 ```
 
-Starts:
+### Code Style
 
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:8081 |
-| MCP Gateway | http://localhost:3001 |
-| Desktop Agent | background |
+- **Frontend:** ESLint + Prettier (React/TypeScript)
+- **MCP Gateway:** ESLint + Prettier (Fastify/TypeScript)
+- **Backend:** Black formatter (Python)
+- **Git:** Conventional commits (feat:, fix:, docs:, etc.)
 
 ---
 
-## Detection Flow
+## 📞 Support & Troubleshooting
 
-```
-Connection detected (psutil)
-  → Phase 0: Windows DNS cache  (exact domain lookup)
-  → Phase 1: Preloaded IP map   (dedicated IPs only)
-  → Phase 2: Reverse DNS        (fallback)
-  → Registry match → POST to Supabase → Dashboard updates
+### Common Issues
+
+**Port Already in Use**
+```bash
+# Find process using port 3001
+netstat -ano | findstr :3001
+# Kill process
+taskkill /PID <PID> /F
 ```
 
-Registry: `devise-agent/devise-eye/data/ai_tools_registry.json` — 186+ tools
+**Auth0 Token Invalid**
+- Verify JWKS URI is correct
+- Check Auth0 Application settings
+- Ensure audience matches config
+
+**Supabase Connection Error**
+- Check database URL format
+- Verify API key permissions
+- Test connection at https://app.supabase.com
+
+**Frontend Can't Connect to Gateway**
+- Check CORS configuration
+- Verify gateway is running on port 3001
+- Check network connectivity
+
+See [RUNNING_AND_TESTING.md](./RUNNING_AND_TESTING.md#troubleshooting) for more troubleshooting tips.
 
 ---
 
-## Project Layout
+## 📄 License
 
-```
-devise-cad/
-├── frontend/                  # React + Vite dashboard
-│   ├── src/services/api.ts    # Supabase queries
-│   ├── src/hooks/useDashboard.ts
-│   └── .env
-├── mcp/
-│   ├── server.ts              # Fastify + JWT
-│   └── .env
-├── devise-agent/devise-eye/
-│   ├── main.py                # Detection loop
-│   ├── registry.py            # Tool matching
-│   ├── reporter.py            # Supabase writer
-│   ├── data/ai_tools_registry.json
-│   └── .env
-└── start.bat
-```
+MIT License - See LICENSE file for details
+
+---
+
+## 👥 Team
+
+**Maintainers:**
+- Yash Sharma ([@Yash13606](https://github.com/Yash13606))
+
+---
+
+## 🔗 Links
+
+- **GitHub Repository:** https://github.com/Yash13606/Devise-CAD
+- **Supabase Documentation:** https://supabase.com/docs
+- **Auth0 Documentation:** https://auth0.com/docs
+- **Fastify Documentation:** https://www.fastify.io/docs
+- **React Documentation:** https://react.dev
+- **FastAPI Documentation:** https://fastapi.tiangolo.com
+
+---
+
+**Last Updated:** April 16, 2026  
+**Status:** ⚠️ Beta (Security fixes required before production)
