@@ -40,11 +40,11 @@ export const LandingPage = () => {
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center mt-8">
-            <Link to="/login" className="border-2 border-brand-dark text-brand-dark rounded-full px-6 py-2.5 font-medium hover:bg-brand-dark hover:text-white transition-colors">
-              Get Started
+            <Link to="/dashboard" className="border-2 border-brand-dark text-brand-dark rounded-full px-6 py-2.5 font-medium hover:bg-brand-dark hover:text-white transition-colors flex items-center gap-2">
+              Agent Dashboard <ArrowRight size={16} />
             </Link>
-            <Link to="/demo" className="bg-brand-orange text-white rounded-full px-6 py-2.5 font-medium hover:bg-orange-600 transition-colors shadow-lg shadow-brand-orange/20 flex items-center gap-2">
-              Book a Demo <ArrowRight size={16} />
+            <Link to="/mcp" className="bg-brand-orange text-white rounded-full px-6 py-2.5 font-medium hover:bg-orange-600 transition-colors shadow-lg shadow-brand-orange/20 flex items-center gap-2">
+              MCP Dashboard <ArrowRight size={16} />
             </Link>
           </div>
 

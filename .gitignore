@@ -3,8 +3,9 @@
 .env.*
 !.env.example
 
-# ─── Node / Frontend ───────────────────────────────────────────────────────
+# ─── Node / Frontend & MCP Gateway ─────────────────────────────────────────
 node_modules/
+mcp-gateway/node_modules/
 dist/
 .vite/
 *.local

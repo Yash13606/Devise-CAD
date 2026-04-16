@@ -35,6 +35,7 @@ import { AboutPage } from "./pages/landing/AboutPage";
 import { UseCasesPage } from "./pages/landing/UseCasesPage";
 import { DemoPage } from "./pages/landing/DemoPage";
 import NotFound from "./pages/landing/NotFound";
+import { MCPRouter } from "./pages/mcp/router";
 
 type Tab = "overview" | "live-feed" | "analytics" | "devices" | "alerts" | "subscriptions" | "settings" | "team" | "firewall" | "data-risk";
 
@@ -109,6 +110,12 @@ const AppContent = () => {
       <Route 
         path="/dashboard/*" 
         element={user ? <Dashboard /> : <Navigate to="/login" replace />} 
+      />
+      
+      {/* MCP Gateway Dashboard Routes (Protected) */}
+      <Route 
+        path="/mcp/*" 
+        element={user ? <MCPRouter /> : <Navigate to="/login" replace />} 
       />
       
       {/* Fallback */}
