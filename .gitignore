@@ -48,3 +48,21 @@ desktop.ini
 # ─── Liveness / Runtime ────────────────────────────────────────────────────
 devise-agent/devise-eye/*.json.lock
 liveness.json
+
+# ─── Documentation (Local Development) ─────────────────────────────────────
+# Keep these locally but don't sync to GitHub
+AUDIT_REPORT.md
+RUNNING_AND_TESTING.md
+env.md
+docs/**/*.md
+devise-agent/devise-eye/context.md
+devise-agent/devise-eye/implementation_context.md
+
+# ─── Build & Test Output ──────────────────────────────────────────────────
+frontend/build_log*.txt
+frontend/errors.txt
+frontend/eslint-report.json
+frontend/lint-output.txt
+frontend/lint-results.json
+mcp-gateway/test_out.txt
+mcp-gateway/test-gateway.js
