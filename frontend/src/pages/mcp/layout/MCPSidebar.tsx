@@ -4,7 +4,6 @@ import {
   Server,
   Activity,
   Clock,
-  Shield,
   Bell,
   KeyRound,
   FileText,
@@ -103,29 +102,24 @@ export function MCPSidebar() {
     >
       {/* ── Logo ────────────────────────────────────────────────── */}
       <div className="flex flex-col px-5 pt-6 pb-2">
-        <Link to="/mcp" className="flex items-center gap-2 group">
-          <div
-            className="flex items-center justify-center rounded-lg"
-            style={{
-              width: 32,
-              height: 32,
-              background: "linear-gradient(135deg, #FF5C1A 0%, #FF8A50 100%)",
-            }}
-          >
-            <Shield size={16} className="text-white" strokeWidth={2.5} />
-          </div>
+        <Link to="/mcp" className="flex items-center gap-3 group">
+          <img 
+            src="/src/assets/logo.svg" 
+            alt="Devise Logo" 
+            className="h-8 w-auto object-contain group-hover:scale-105 transition-transform" 
+          />
           <div className="flex flex-col">
             <span
               className="font-display font-extrabold tracking-tight leading-none"
               style={{ fontSize: 16, color: "#FF5C1A" }}
             >
-              DEVISE GATE
+              DEVISE
             </span>
             <span
               className="leading-none"
               style={{ fontSize: 10, color: "#94A3B8", letterSpacing: "0.08em", fontWeight: 500 }}
             >
-              MCP Governance
+              MCP Control
             </span>
           </div>
         </Link>

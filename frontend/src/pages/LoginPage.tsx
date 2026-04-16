@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Loader2, LogIn, ShieldCheck, Globe, Zap } from "lucide-react";
+import { ChevronLeft, Loader2, LogIn, ShieldCheck, Globe } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 
 export function LoginPage() {
@@ -29,11 +29,12 @@ export function LoginPage() {
         />
 
         {/* TOP LEFT RECTANGLE LOGO */}
-        <div className="absolute top-0 left-0 p-8 flex items-center gap-2 z-10">
-          <div className="w-8 h-8 rounded-lg bg-[#F04E23] flex items-center justify-center p-1.5 shadow-lg shadow-orange-500/20">
-            <Zap className="text-white fill-white" size={16} />
-          </div>
-          <span className="text-white font-bold text-lg tracking-tight">Devise</span>
+        <div className="absolute top-0 left-0 p-8 z-10">
+          <img 
+            src="/src/assets/logo.svg" 
+            alt="Devise Logo" 
+            className="h-12 w-auto object-contain drop-shadow-lg" 
+          />
         </div>
 
         {/* Branding Message */}
@@ -68,12 +69,11 @@ export function LoginPage() {
         {/* FORM CONTAINER */}
         <div className="max-w-md w-full flex flex-col items-center">
           {/* MOBILE LOGO */}
-          <div className="lg:hidden flex items-center gap-2 mb-12">
-            <div className="w-8 h-8 rounded-lg bg-[#F04E23] flex items-center justify-center p-1.5">
-              <Zap className="text-white fill-white" size={16} />
-            </div>
-            <span className="text-[#1A1A1A] font-bold text-lg">Devise</span>
-          </div>
+          <img 
+            src="/src/assets/logo.svg" 
+            alt="Devise Logo" 
+            className="h-10 w-auto object-contain mb-12" 
+          />
 
           <div className="text-center mb-10">
             <h1 className="text-4xl font-bold text-[#1A1A1A] mb-3 tracking-tight">Welcome to Devise</h1>
