@@ -99,51 +99,88 @@ Devise-CAD is a **4-tier AI governance platform** designed to:
 
 ```
 Devise-CAD/
-├── frontend/                  # React Vite dashboard
+├── frontend/                    # Complete React Vite frontend (All-in-One)
 │   ├── src/
-│   │   ├── components/       # Reusable UI components
-│   │   ├── pages/           # Page components
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── services/        # API service clients
-│   │   ├── lib/             # Utilities (AuthContext, Supabase, etc.)
+│   │   ├── pages/
+│   │   │   ├── Devices.tsx
+│   │   │   ├── Analytics.tsx
+│   │   │   ├── Alerts.tsx
+│   │   │   ├── LiveFeed.tsx
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── Index.tsx
+│   │   │   ├── NotFound.tsx
+│   │   │   ├── landing/              # Landing pages
+│   │   │   │   ├── LandingPage.tsx
+│   │   │   │   ├── AboutPage.tsx
+│   │   │   │   ├── DemoPage.tsx
+│   │   │   │   └── ...
+│   │   │   └── mcp/                  # MCP Dashboard (Integrated)
+│   │   │       ├── pages/
+│   │   │       │   ├── MCPOverviewPage.tsx
+│   │   │       │   ├── MCPAlertsPage.tsx
+│   │   │       │   ├── MCPAnalyticsPage.tsx
+│   │   │       │   ├── MCPCallsPage.tsx
+│   │   │       │   ├── MCPThreatLogPage.tsx
+│   │   │       │   ├── MCPSettingsPage.tsx
+│   │   │       │   ├── MCPRegistryPage.tsx
+│   │   │       │   ├── MCPPoliciesPage.tsx
+│   │   │       │   └── MCPIdentityPage.tsx
+│   │   │       ├── layout/
+│   │   │       │   ├── MCPShell.tsx
+│   │   │       │   ├── MCPSidebar.tsx
+│   │   │       │   └── MCPTopBar.tsx
+│   │   │       ├── components/
+│   │   │       │   ├── analytics/, alerts/, calls/, identity/
+│   │   │       │   ├── overview/, policies/, registry/, shared/
+│   │   │       │   └── threats/
+│   │   │       ├── hooks/
+│   │   │       ├── types/
+│   │   │       ├── router.tsx
+│   │   │       └── index.tsx
+│   │   ├── components/          # Shared components
+│   │   ├── hooks/               # Shared hooks (useDashboard, use-mobile, use-toast)
+│   │   ├── services/            # API service clients
+│   │   ├── lib/                 # Utilities (AuthContext, Supabase, utils)
 │   │   ├── App.tsx
 │   │   └── main.tsx
 │   ├── package.json
 │   ├── vite.config.ts
 │   └── tsconfig.json
 │
-├── mcp-gateway/              # Fastify middleware gateway
-│   ├── server.ts            # Main server file
+├── mcp-gateway/                  # Fastify middleware gateway
+│   ├── server.ts                # Main server file
 │   ├── package.json
 │   ├── tsconfig.json
-│   └── migrations/          # Supabase audit ledger SQL
+│   └── migrations/              # Supabase audit ledger SQL
 │
-├── api/                      # FastAPI backend entry point
-│   └── index.py             # Vercel ASGI handler
+├── api/                          # FastAPI backend entry point
+│   └── index.py                 # Vercel ASGI handler
 │
 ├── devise-agent/
-│   └── devise-eye/          # Python desktop agent
-│       ├── main.py          # Entry point
-│       ├── detector.py      # AI tools detector
+│   └── devise-eye/              # Python desktop agent
+│       ├── main.py              # Entry point
+│       ├── detector.py          # AI tools detector
 │       ├── process_resolver.py
 │       ├── dns_resolver.py
 │       ├── firewall_monitor.py
 │       └── requirements.txt
 │
-├── docs/                    # Documentation
+├── docs/                        # Documentation
 │   ├── PROJECT_DETAILS.md
 │   ├── codebase_context.md
 │   └── backend-overview.md
 │
-├── RUNNING_AND_TESTING.md   # Complete setup & test guide
-├── AUDIT_REPORT.md          # Security & code quality audit
-├── README.md                # This file
-├── package.json             # Root workspace config
-├── requirements.txt         # Python dependencies
-├── .env                     # Environment variables template
+├── RUNNING_AND_TESTING.md       # Complete setup & test guide
+├── AUDIT_REPORT.md              # Security & code quality audit
+├── README.md                    # This file
+├── package.json                 # Root workspace config
+├── requirements.txt             # Python dependencies
+├── .env                         # Environment variables template
 ├── .gitignore
-└── start.bat               # Windows batch script to launch all services
+└── start.bat                    # Windows batch script to launch all services
 ```
+
+> **📌 Note**: The **complete frontend** (including the MCP Dashboard) is **consolidated in a single `frontend/` folder**. All dashboard pages, components, hooks, and utilities are organized within `frontend/src/pages/mcp/` and integrated into the main React application.
 
 ---
 
